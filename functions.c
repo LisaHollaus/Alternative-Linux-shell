@@ -23,7 +23,7 @@ int tokenize(char *input, char *tokens[]) {
     
     // Add NULL to the end to indicate end of tokens
     tokens[count] = NULL; 
-    return count;
+    return count; // Return number of tokens
 }
 
 
@@ -43,7 +43,7 @@ void execute_command(char *tokens[], int is_background) { //is_background is a f
         }
 
         if (execvp(tokens[0], tokens) == -1) { // Execute command with arguments in tokens
-            fprintf("Error executing command");
+            fprintf(stderr, "Error executing command");
             exit(EXIT_FAILURE); // Exit if command execution fails
         }
     } else {
@@ -65,3 +65,49 @@ void global_usage() {
 }
 
 
+void execute_command_with_redirection(char *tokens[], const char *output_file) {
+    pid_t pid = fork();  // Create a child process
+
+    if (pid < 0) {
+        fprintf(stderr, "Fork failed"); 
+        return 1;
+
+    } else if (pid == 0) {
+
+        //TODO: Make sure the file is created if it doesn't exist
+            // and if it does exist, make sure it is just appended to
+
+
+        // Child process
+        printf("Child: Redirecting output to %s...\n", output_file);
+
+        // Open the file in append mode
+        FILE *file = fopen(output_file, "a");  // Open in append mode
+        if (file == NULL) {
+            perror("Error opening file");
+            exit(EXIT_FAILURE);
+        }
+
+        // Redirect stdout to the file
+        int file_fd = fileno(file);  // Get the file descriptor from FILE*
+        dup2(file_fd, STDOUT_FILENO);  // Redirect stdout to the file (in append mode)
+        fclose(file);  // Close FILE* (descriptor stays open because dup2 duplicated it)
+
+        // Execute the command 
+        if (execvp(tokens[0], tokens) == -1) {
+            perror("Error executing command");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        // Parent process
+        wait(NULL);  // Wait for the child process to finish
+        printf("Parent: Child process completed. PID was %d\n", pid);
+    }
+}
+
+void quite_programm() {
+    // The following processes are running, are you sure you want to quit? [Y/n]. 
+    //A list of all currently running processes will follow. If the user enters Y, the shell will quit and all running processes will be terminated.
+    printf("Exiting IMCSH...\n");
+    exit(0);
+}

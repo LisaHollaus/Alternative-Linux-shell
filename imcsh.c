@@ -4,27 +4,51 @@
 #include <string.h>
 #include <functions.h>
 
-int main()
-{
+int main() {
+    // set up variables
     char input[1024];
+    char *tokens[100];
+
     while (1) {
         printf("user@host> ");
-        fgets(input, 1024, stdin); // Read input from stdin
+
+        // Read input from stdin
+        fgets(input, 1024, stdin); 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             break; // Exit loop if no input
         }
+        
         // Remove newline character from input
         input[strcspn(input, "\n")] = 0;
         
-
         // Tokenize input
-        // int count = tokenize(input, tokens);
+        int count = tokenize(input, tokens);  
+
         
+        // check if ">" is present
+        if (strstr(input, ">") != NULL) { 
+            char *command = strtok(input, ">"); // everything before ">"
+            char *filename = strtok(NULL, ">"); // everything after ">"
+            
+            // Trim whitespace
+            filename[strcspn(filename, "\n")] = 0;
+            
+            while (*filename == ' ') {
+                filename++; // Remove leading whitespace
+            }
+            
+            // Tokenize command
+            tokenize(command, tokens);
+            // Execute command with redirection
+            execute_command_with_redirection(tokens, filename);
+            continue;
+        }
         
         // Execute command based on first token
-        if (strncmp(tokens[0], "exec", 4) == 0) {
+
+        else if (strncmp(tokens[0], "exec", 4) == 0) {
             int is_background = 0; // Flag to indicate if process should run in background
-            int count = tokenize(input, tokens); // Tokenize input
+            //int count = tokenize(input, tokens); // Tokenize input
             
             // Check for & at the end
             if (count > 2 && strcmp(tokens[count - 1], "&") == 0) {
@@ -35,41 +59,22 @@ int main()
             // Remove the "exec" part and pass the rest to execute_command
             execute_command(tokens + 1, is_background);
             continue;
-        }
 
-        // Chech for globalusage command
-        if (strcmp(tokens[0], "globalusage") == 0) {
+        // Check for globalusage command
+        } else if (strcmp(tokens[0], "globalusage") == 0) {
             global_usage();
             continue;
+        
+        } else if (strcmp(tokens[0], "quit") == 0) {
+            quite_programm();
+            break;
+        
+        } else {
+            printf("Command not found\n");
         }
-
+    }
 }
 
 
 
 
-
-
-
-
-// int main()
-// {
-//     pid_t pid;
-
-//     pid = fork();
-
-//     if (pid < 0) {
-//         fprintf(stderr, "Fork failed");
-//         return 1;
-//     }
-//     else if (pid == 0) {
-//         printf("Child: Executing ls...\n");
-//         system("/bin/ls");
-//         printf("Child: Execution complete\n");
-//     }
-//     else {
-//         wait(NULL);
-//         printf("Parent: Child complete\n");
-//         printf("Value of PID of the child was %d\n", pid);
-//     }
-// }
