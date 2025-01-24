@@ -60,3 +60,8 @@ void execute_command(char *tokens[], int is_background) { //is_background is a f
     }   
 }
 
+void global_usage() {
+    printf("IMCSH Version 1.1 created by Selin Meseli, Lisa-Maria Hollaus\n");
+}
+
+

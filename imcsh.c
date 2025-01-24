@@ -20,12 +20,29 @@ int main()
         // Tokenize input
         // int count = tokenize(input, tokens);
         
+        
         // Execute command based on first token
         if (strncmp(tokens[0], "exec", 4) == 0) {
+            int is_background = 0; // Flag to indicate if process should run in background
+            int count = tokenize(input, tokens); // Tokenize input
+            
+            // Check for & at the end
+            if (count > 2 && strcmp(tokens[count - 1], "&") == 0) {
+                is_background = 1; // Set flag if "&" is present
+                tokens[count - 1] = NULL; // Remove the & from tokens
+            }
+
             // Remove the "exec" part and pass the rest to execute_command
-            execute_command(tokens + 1);
+            execute_command(tokens + 1, is_background);
             continue;
-    }
+        }
+
+        // Chech for globalusage command
+        if (strcmp(tokens[0], "globalusage") == 0) {
+            global_usage();
+            continue;
+        }
+
 }
 
 
