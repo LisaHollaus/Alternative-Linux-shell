@@ -1,7 +1,18 @@
 # os_project
 
+
 TODO:
 - Documentation
-- quit process (therefore we need functions that keep track of current processes)
-- Makefile
-- structere (functions in functions.c, functions.h for declairations, only main process in imcsh.c)
+- fix quit process to show runnning programs
+- Make sure files don't get overwritten
+- make sure file gets created
+- test & character
+
+
+
+
+user@host> exec ps -uax
+user@host> exec ls -l > directory_output.txt
+user@host> globalusage
+user@host> globalusage > usage.txt
+user@host> quit
