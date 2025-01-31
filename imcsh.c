@@ -66,7 +66,7 @@ int main() {
             continue;
         
         } else if (strcmp(tokens[0], "quit") == 0) {
-            quite_programm();
+            quite_program();
             break;
         
         } else {

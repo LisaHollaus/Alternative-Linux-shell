@@ -74,10 +74,6 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
 
     } else if (pid == 0) {
 
-        //TODO: Make sure the file is created if it doesn't exist
-            // and if it does exist, make sure it is just appended to
-
-
         // Child process
         printf("Child: Redirecting output to %s...\n", output_file);
 
