@@ -67,7 +67,7 @@ int main() {
         
         // Check for quit command
         if (strcmp(tokens[0], "quit") == 0) {
-            quit_programm();
+            quit_program();
             break;
         } 
 

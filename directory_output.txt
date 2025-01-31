@@ -1,0 +1,10 @@
+total 56
+-rw-r--r-- 1 root root   199 Jan 31 11:56 Makefile
+-rw-r--r-- 1 root root   313 Jan 24 15:14 README.md
+-rw-r--r-- 1 root root     0 Jan 31 12:03 directory_output.txt
+-rw-r--r-- 1 root root  5029 Jan 31 11:59 functions.c
+-rw-r--r-- 1 root root   533 Jan 31 11:31 functions.h
+-rw-r--r-- 1 root root  6816 Jan 31 12:01 functions.o
+-rwxr-xr-x 1 root root 17400 Jan 31 12:01 imcsh
+-rw-r--r-- 1 root root  2327 Jan 31 12:01 imcsh.c
+-rw-r--r-- 1 root root  3312 Jan 31 12:01 imcsh.o
