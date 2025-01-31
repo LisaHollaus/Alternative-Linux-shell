@@ -3,9 +3,50 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include "functions.h"
+
+
+#include <signal.h> // For signal()
 
 #include <sys/types.h>
 #include <sys/wait.h> // For wait() and waitpid()
+
+pid_t running_processes[100];  // Stores PIDs of background processes (max 100)
+int process_count = 0;  // Number of active background processes
+
+void add_process(pid_t pid) {
+    if (process_count < 100) { // max 100 processes
+        running_processes[process_count] = pid;
+        process_count++;
+    } else {
+        fprintf(stderr, "Process limit reached. Cannot track more processes.\n");
+    }
+}
+
+void remove_process(pid_t pid) {
+    for (int i = 0; i < process_count; i++) {
+        if (running_processes[i] == pid) {
+            // Shift remaining processes
+            for (int j = i; j < process_count - 1; j++) {
+                running_processes[j] = running_processes[j + 1];
+            }
+            process_count--;
+            break;
+        }
+    }
+}
+
+void print_running_processes() {
+    if (process_count == 0) {
+        printf("No background processes are running.\n");
+        return;
+    }
+    printf("The following processes are running:\n");
+    for (int i = 0; i < process_count; i++) {
+        printf("PID: %d\n", running_processes[i]);
+    }
+}
+
 
 
 // tokenize the input
@@ -27,13 +68,12 @@ int tokenize(char *input, char *tokens[]) {
 }
 
 
-
+// void for executing the command without a return value
 void execute_command(char *tokens[], int is_background) { //is_background is a flag to indicate if the process should run in the background
     pid_t pid = fork(); // Create a child process
 
     if (pid < 0) {
         fprintf(stderr, "Fork failed"); 
-        return 1;
     }
 
     if (pid == 0) { 
@@ -50,7 +90,8 @@ void execute_command(char *tokens[], int is_background) { //is_background is a f
         // Parent process
         if (is_background) {
             // Print PID of background process and continue
-            printf("PID of background process: %d\n", pid);        
+            printf("PID of background process: %d\n", pid);   
+            add_process(pid); // Add PID to running_processes array     
          
          } else {
             // Wait for the child process to finish
@@ -70,13 +111,8 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
 
     if (pid < 0) {
         fprintf(stderr, "Fork failed"); 
-        return 1;
 
     } else if (pid == 0) {
-
-        //TODO: Make sure the file is created if it doesn't exist
-            // and if it does exist, make sure it is just appended to
-
 
         // Child process
         printf("Child: Redirecting output to %s...\n", output_file);
@@ -105,9 +141,26 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
     }
 }
 
-void quite_programm() {
-    // The following processes are running, are you sure you want to quit? [Y/n]. 
-    //A list of all currently running processes will follow. If the user enters Y, the shell will quit and all running processes will be terminated.
-    printf("Exiting IMCSH...\n");
-    exit(0);
+void quit_program() {
+    if (process_count > 0) {
+        printf("The following processes are running, are you sure you want to quit? [Y/n]\n");
+        print_running_processes();
+        
+        char response;
+        scanf(" %c", &response);
+        if (response == 'Y' || response == 'y') {
+            // Terminate all running background processes
+            for (int i = 0; i < process_count; i++) {
+                kill(running_processes[i], SIGTERM); // Send termination signal
+            }
+            printf("All background processes terminated. Exiting IMCSH...\n");
+            exit(0);
+        } else {
+            printf("Quit aborted.\n");
+            return;
+        }
+    } else {
+        printf("Exiting IMCSH...\n");
+        exit(0);
+    }
 }

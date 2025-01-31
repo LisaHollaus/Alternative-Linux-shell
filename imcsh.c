@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <functions.h>
+#include "functions.h"
 
 int main() {
     // set up variables
@@ -13,7 +13,7 @@ int main() {
         printf("user@host> ");
 
         // Read input from stdin
-        fgets(input, 1024, stdin); 
+        // fgets(input, 1024, stdin); 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             break; // Exit loop if no input
         }
@@ -31,8 +31,7 @@ int main() {
             char *filename = strtok(NULL, ">"); // everything after ">"
             
             // Trim whitespace
-            filename[strcspn(filename, "\n")] = 0;
-            
+            filename[strcspn(filename, "\n")] = 0; // Remove newline character
             while (*filename == ' ') {
                 filename++; // Remove leading whitespace
             }
@@ -46,9 +45,8 @@ int main() {
         
         // Execute command based on first token
 
-        else if (strncmp(tokens[0], "exec", 4) == 0) {
+        if (strncmp(tokens[0], "exec", 4) == 0) {
             int is_background = 0; // Flag to indicate if process should run in background
-            //int count = tokenize(input, tokens); // Tokenize input
             
             // Check for & at the end
             if (count > 2 && strcmp(tokens[count - 1], "&") == 0) {
@@ -59,19 +57,22 @@ int main() {
             // Remove the "exec" part and pass the rest to execute_command
             execute_command(tokens + 1, is_background);
             continue;
-
+        }
+        
         // Check for globalusage command
-        } else if (strcmp(tokens[0], "globalusage") == 0) {
+        if (strcmp(tokens[0], "globalusage") == 0) {
             global_usage();
             continue;
+        } 
         
-        } else if (strcmp(tokens[0], "quit") == 0) {
-            quite_programm();
+        // Check for quit command
+        if (strcmp(tokens[0], "quit") == 0) {
+            quit_programm();
             break;
-        
-        } else {
-            printf("Command not found\n");
-        }
+        } 
+
+        // If no special command is found
+        printf("Command not found\n");
     }
 }
 

@@ -1,11 +1,14 @@
 CC = gcc
-CCFLAGS = -Wall
+CCFLAGS = -Wall -I./include
+
 
 all: imcsh
 
-imcsh: imcsh.o
-	$(CC) $(CCFLAGS) -o imcsh imcsh.o -pthread
+# Link all files into the final executable
+imcsh: imcsh.o functions.o
+	$(CC) $(CCFLAGS) -o imcsh imcsh.o functions.o
 
 clean:
 	- rm *.o
 	- rm imcsh
+
