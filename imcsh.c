@@ -13,7 +13,6 @@ int main() {
         printf("user@host> ");
 
         // Read input from stdin
-        // fgets(input, 1024, stdin); 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             break; // Exit loop if no input
         }
@@ -21,7 +20,9 @@ int main() {
         // Remove newline character from input
         input[strcspn(input, "\n")] = 0;
         
-        
+        // Check for finished background processes before executing new command
+        check_finished_processes();
+
         // check if ">" is present
         if (strstr(input, ">") != NULL) { 
             char *command = strtok(input, ">"); // everything before ">"

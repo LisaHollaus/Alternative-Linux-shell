@@ -5,9 +5,7 @@
 #include <string.h>
 #include "functions.h"
 
-
-#include <signal.h> // For signal()
-
+#include <signal.h> // For signal handling (kill function)
 #include <sys/types.h>
 #include <sys/wait.h> // For wait() and waitpid()
 
@@ -36,7 +34,20 @@ void remove_process(pid_t pid) {
     }
 }
 
-void print_running_processes() {
+// Check for finished background processes
+void check_finished_processes() {
+    int status;
+    pid_t pid;
+
+    // Check for finished background processes
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+        printf("PID of finished process: %d\n", pid);
+        remove_process(pid); // Remove the finished process from the list
+    }
+}
+
+
+void print_running_processes() {    
     if (process_count == 0) {
         printf("No background processes are running.\n");
         return;
@@ -46,7 +57,6 @@ void print_running_processes() {
         printf("PID: %d\n", running_processes[i]);
     }
 }
-
 
 
 // tokenize the input
@@ -113,7 +123,6 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
         fprintf(stderr, "Fork failed"); 
 
     } else if (pid == 0) {
-
         // Child process
         printf("Child: Redirecting output to %s...\n", output_file);
 
@@ -155,7 +164,7 @@ void quit_program() {
         printf("Are you sure you want to quit? [Y/n]\n");
 
         char response;
-        scanf(" %c", &response);
+        scanf(" %c", &response); // Read a single character
         if (response == 'Y' || response == 'y') {
             // Terminate all running background processes
             for (int i = 0; i < process_count; i++) {

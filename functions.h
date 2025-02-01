@@ -15,5 +15,6 @@ void quit_program();
 void add_process(pid_t pid);
 void remove_process(pid_t pid);
 void print_running_processes();
+void check_finished_processes();
 
 #endif
