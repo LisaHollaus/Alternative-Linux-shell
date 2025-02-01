@@ -1,0 +1,12 @@
+total 48
+-rwxrwxrwx 1 pentotenix pentotenix   199 Jan 31 12:04 Makefile
+-rwxrwxrwx 1 pentotenix pentotenix   218 Feb  1 23:37 README.md
+-rwxrwxrwx 1 pentotenix pentotenix   806 Feb  1 23:35 directory_output.txt
+-rwxrwxrwx 1 pentotenix pentotenix     0 Feb  2  2025 directory_output.tyt
+-rwxrwxrwx 1 pentotenix pentotenix  5702 Feb  1 23:12 functions.c
+-rwxrwxrwx 1 pentotenix pentotenix   566 Feb  1 23:12 functions.h
+-rwxrwxrwx 1 pentotenix pentotenix  7312 Feb  2 00:35 functions.o
+-rwxrwxrwx 1 pentotenix pentotenix 17456 Feb  2 00:35 imcsh
+-rwxrwxrwx 1 pentotenix pentotenix  3092 Feb  1 23:12 imcsh.c
+-rwxrwxrwx 1 pentotenix pentotenix  3928 Feb  2 00:35 imcsh.o
+-rwxrwxrwx 1 pentotenix pentotenix    62 Feb  1 23:36 usage.txt
