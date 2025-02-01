@@ -129,6 +129,13 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
         dup2(file_fd, STDOUT_FILENO);  // Redirect stdout to the file (in append mode)
         fclose(file);  // Close FILE* (descriptor stays open because dup2 duplicated it)
 
+        // Check if the command is globalusage
+        if (strcmp(tokens[0], "globalusage") == 0) {
+            // Execute the internal command
+            global_usage();
+            exit(EXIT_SUCCESS);  // Exit the child process after execution
+        }
+
         // Execute the command 
         if (execvp(tokens[0], tokens) == -1) {
             perror("Error executing command");
@@ -143,9 +150,10 @@ void execute_command_with_redirection(char *tokens[], const char *output_file) {
 
 void quit_program() {
     if (process_count > 0) {
-        printf("The following processes are running, are you sure you want to quit? [Y/n]\n");
+        // Print running processes and ask for confirmation
         print_running_processes();
-        
+        printf("Are you sure you want to quit? [Y/n]\n");
+
         char response;
         scanf(" %c", &response);
         if (response == 'Y' || response == 'y') {

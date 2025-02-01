@@ -21,9 +21,6 @@ int main() {
         // Remove newline character from input
         input[strcspn(input, "\n")] = 0;
         
-        // Tokenize input
-        //int count = tokenize(input, tokens);  
-
         
         // check if ">" is present
         if (strstr(input, ">") != NULL) { 
@@ -37,6 +34,9 @@ int main() {
                 }
                 // Remove newline character from filename
                 filename[strcspn(filename, "\n")] = 0;
+            } else {
+                fprintf(stderr, "Error: No output file specified after '>'.\n");
+                continue;
             }
 
             // Tokenize the command part
@@ -48,22 +48,14 @@ int main() {
                     tokens[i] = tokens[i + 1];
                 }
                 count--;
-            }
+            }            
             
-            // Debug: Print tokens array
-            printf("Tokens array:\n");
-            for (int i = 0; tokens[i] != NULL; i++) {
-                printf("Token %d: %s\n", i, tokens[i]);
-            }
-            
-
             // Execute command with redirection
             if (filename != NULL) {
                 execute_command_with_redirection(tokens, filename);
             } else {
                 fprintf(stderr, "Error: No output file specified after '>'.\n");
             }
-    
             continue;
         }
 
@@ -75,7 +67,7 @@ int main() {
             int is_background = 0; // Flag to indicate if process should run in background
             
             // Check for & at the end
-            if (count > 2 && strcmp(tokens[count - 1], "&") == 0) {
+            if (count > 1 && strcmp(tokens[count - 1], "&") == 0) {
                 is_background = 1; // Set flag if "&" is present
                 tokens[count - 1] = NULL; // Remove the & from tokens
             }
