@@ -1,0 +1,22 @@
+total 76
+-rw-r--r-- 1 root root 16892 Jan 31 12:08 Documentation.docx
+-rw-r--r-- 1 root root   199 Jan 31 11:56 Makefile
+-rw-r--r-- 1 root root   362 Jan 31 15:44 README.md
+-rw-r--r-- 1 root root     0 Feb  1 17:25 directory_output.txt
+-rw-r--r-- 1 root root  5029 Jan 31 11:59 functions.c
+-rw-r--r-- 1 root root   533 Jan 31 11:31 functions.h
+-rw-r--r-- 1 root root  6816 Feb  1 17:56 functions.o
+-rwxr-xr-x 1 root root 17400 Feb  1 17:56 imcsh
+-rw-r--r-- 1 root root  3182 Feb  1 17:55 imcsh.c
+-rw-r--r-- 1 root root  3944 Feb  1 17:56 imcsh.o
+total 80
+-rw-r--r-- 1 root root 16892 Jan 31 12:08 Documentation.docx
+-rw-r--r-- 1 root root   199 Jan 31 11:56 Makefile
+-rw-r--r-- 1 root root   362 Jan 31 15:44 README.md
+-rw-r--r-- 1 root root   546 Feb  1 17:56 directory_output.txt
+-rw-r--r-- 1 root root  5029 Jan 31 11:59 functions.c
+-rw-r--r-- 1 root root   533 Jan 31 11:31 functions.h
+-rw-r--r-- 1 root root  6816 Feb  1 17:56 functions.o
+-rwxr-xr-x 1 root root 17400 Feb  1 17:56 imcsh
+-rw-r--r-- 1 root root  3182 Feb  1 17:55 imcsh.c
+-rw-r--r-- 1 root root  3944 Feb  1 17:56 imcsh.o

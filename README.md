@@ -4,8 +4,7 @@
 TODO:
 - Documentation
 - fix quit process to show runnning programs
-- Make sure files don't get overwritten
-- make sure file gets created
+- make sure file gets created and globalusage > usage.txt can work as well
 - test & character
 
 

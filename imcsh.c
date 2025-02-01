@@ -22,29 +22,55 @@ int main() {
         input[strcspn(input, "\n")] = 0;
         
         // Tokenize input
-        int count = tokenize(input, tokens);  
+        //int count = tokenize(input, tokens);  
 
         
         // check if ">" is present
         if (strstr(input, ">") != NULL) { 
             char *command = strtok(input, ">"); // everything before ">"
             char *filename = strtok(NULL, ">"); // everything after ">"
+
+            // Trim leading whitespace from filename
+            if (filename != NULL) {
+                while (*filename == ' ') {
+                    filename++;
+                }
+                // Remove newline character from filename
+                filename[strcspn(filename, "\n")] = 0;
+            }
+
+            // Tokenize the command part
+            int count = tokenize(command, tokens);
             
-            // Trim whitespace
-            filename[strcspn(filename, "\n")] = 0; // Remove newline character
-            while (*filename == ' ') {
-                filename++; // Remove leading whitespace
+            // If the first token is "exec", remove it
+            if (count > 0 && strcmp(tokens[0], "exec") == 0) {
+                for (int i = 0; i < count; i++) {
+                    tokens[i] = tokens[i + 1];
+                }
+                count--;
             }
             
-            // Tokenize command
-            tokenize(command, tokens);
+            // Debug: Print tokens array
+            printf("Tokens array:\n");
+            for (int i = 0; tokens[i] != NULL; i++) {
+                printf("Token %d: %s\n", i, tokens[i]);
+            }
+            
+
             // Execute command with redirection
-            execute_command_with_redirection(tokens, filename);
+            if (filename != NULL) {
+                execute_command_with_redirection(tokens, filename);
+            } else {
+                fprintf(stderr, "Error: No output file specified after '>'.\n");
+            }
+    
             continue;
         }
-        
-        // Execute command based on first token
 
+        // If no ">" is present, tokenize the entire input
+        int count = tokenize(input, tokens); 
+
+        // Execute command based on first token
         if (strncmp(tokens[0], "exec", 4) == 0) {
             int is_background = 0; // Flag to indicate if process should run in background
             
@@ -57,16 +83,14 @@ int main() {
             // Remove the "exec" part and pass the rest to execute_command
             execute_command(tokens + 1, is_background);
             continue;
-        }
         
         // Check for globalusage command
-        if (strcmp(tokens[0], "globalusage") == 0) {
+        } else if (strcmp(tokens[0], "globalusage") == 0) {
             global_usage();
             continue;
-        } 
-
+        
         // Check for quit command
-        if (strcmp(tokens[0], "quit") == 0) {
+        } else if (strcmp(tokens[0], "quit") == 0) {
             quit_program();
             break;
         } 
