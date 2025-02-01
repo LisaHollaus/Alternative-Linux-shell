@@ -1,0 +1,13 @@
+total 84
+-rwxrwxrwx 1 pentotenix pentotenix 17468 Feb  1 23:30 Documentation.docx
+-rwxrwxrwx 1 pentotenix pentotenix   199 Jan 31 12:04 Makefile
+-rwxrwxrwx 1 pentotenix pentotenix   218 Feb  1 23:12 README.md
+-rwxrwxrwx 1 pentotenix pentotenix     0 Feb  1  2025 directory_output.txt
+-rwxrwxrwx 1 pentotenix pentotenix  5702 Feb  1 23:12 functions.c
+-rwxrwxrwx 1 pentotenix pentotenix   566 Feb  1 23:12 functions.h
+-rwxrwxrwx 1 pentotenix pentotenix  7304 Feb  1 23:15 functions.o
+-rwxrwxrwx 1 pentotenix pentotenix 17448 Feb  1 23:15 imcsh
+-rwxrwxrwx 1 pentotenix pentotenix  3092 Feb  1 23:12 imcsh.c
+-rwxrwxrwx 1 pentotenix pentotenix  3920 Feb  1 23:15 imcsh.o
+-rwxrwxrwx 1 pentotenix pentotenix   162 Feb  1 23:13 ~$cumentation.docx
+-rwxrwxrwx 1 pentotenix pentotenix 17004 Feb  1 23:22 ~WRL0005.tmp
