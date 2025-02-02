@@ -1,4 +1,4 @@
-// to avoide multiple inclusion of header files
+// to avoide multiple inclusion of header files, because it gets included in both functions.c and shell.c
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
@@ -11,7 +11,7 @@ void execute_command_with_redirection(char *tokens[], const char *output_file);
 void global_usage();
 void quit_program();
 
-// Process management functions for background processes
+// Process management functions for background processes in shell
 void add_process(pid_t pid);
 void remove_process(pid_t pid);
 void print_running_processes();
